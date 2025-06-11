@@ -10,7 +10,7 @@
 Summary: Security module for the Apache HTTP Server
 Name: mod_security 
 Version: 2.9.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 URL: http://www.modsecurity.org/
 Group: System Environment/Daemons
@@ -19,6 +19,7 @@ Source1: mod_security.conf
 Source2: 10-mod_security.conf
 Source3: modsecurity_localrules.conf
 Patch1: mod_security-2.9.2-remote-rules-timeout.patch
+Patch3: mod_security-2.9.6-CVE-2025-47947.patch
 Requires: httpd httpd-mmn = %{_httpd_mmn}
 # To ensure correct file ownership
 Requires(pre): httpd-filesystem
@@ -58,6 +59,7 @@ This package contains the ModSecurity Audit Log Collector.
 %prep
 %setup -q -n modsecurity-%{version}
 %patch1 -p1 -b .remote-rules-timeout
+%patch3 -p1 -b .cve47947
 
 %build
 %configure --enable-pcre-match-limit=1000000 \
@@ -136,6 +138,10 @@ install -m0644 mlogc/mlogc-default.conf %{buildroot}%{_sysconfdir}/mlogc.conf
 %endif
 
 %changelog
+* Thu May 29 2025 Joe Orton  <jorton@redhat.com> - 2.9.6-2
+- add fix for CVE-2025-47947
+- Resolves: RHEL-93005
+
 * Thu Dec 08 2022 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-1
 - new version 2.9.6
 - Resolves: #2143207 - [RFE] upgrade mod_security to 2.9.6
