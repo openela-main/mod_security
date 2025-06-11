@@ -10,7 +10,7 @@
 Summary: Security module for the Apache HTTP Server
 Name: mod_security
 Version: 2.9.6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 URL: http://www.modsecurity.org/
 Source: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-%{version}.tar.gz
@@ -20,6 +20,7 @@ Source3: modsecurity_localrules.conf
 Patch0: modsecurity-2.9.3-lua-54.patch
 Patch1: modsecurity-2.9.3-apulibs.patch
 Patch2: mod_security-2.9.3-remote-rules-timeout.patch
+Patch3: mod_security-2.9.6-CVE-2025-47947.patch
 
 Requires: httpd httpd-mmn = %{_httpd_mmn}
 %if 0%{?fedora} || 0%{?rhel} > 7
@@ -143,6 +144,10 @@ install -m0644 mlogc/mlogc-default.conf %{buildroot}%{_sysconfdir}/mlogc.conf
 %endif
 
 %changelog
+* Thu May 29 2025 Joe Orton  <jorton@redhat.com> - 2.9.6-2
+- add fix for CVE-2025-47947
+- Resolves: RHEL-93016
+
 * Wed Nov 16 2022 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-1
 - new version 2.9.6
 - Resolves: #2143211 - [RFE] upgrade mod_security to 2.9.6
