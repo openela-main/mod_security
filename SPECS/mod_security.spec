@@ -10,7 +10,7 @@
 Summary: Security module for the Apache HTTP Server
 Name: mod_security
 Version: 2.9.6
-Release: 2%{?dist}.1
+Release: 3%{?dist}
 License: ASL 2.0
 URL: http://www.modsecurity.org/
 Source: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-%{version}.tar.gz
@@ -20,8 +20,10 @@ Source3: modsecurity_localrules.conf
 Patch0: modsecurity-2.9.3-lua-54.patch
 Patch1: modsecurity-2.9.3-apulibs.patch
 Patch2: mod_security-2.9.3-remote-rules-timeout.patch
-Patch3: mod_security-2.9.6-CVE-2025-47947.patch
-Patch4: mod_security-2.9.6-CVE-2025-48866.patch
+
+# Security patches
+Patch100: mod_security-2.9.6-CVE-2025-47947.patch
+Patch101: mod_security-2.9.6-CVE-2025-48866.patch
 
 Requires: httpd httpd-mmn = %{_httpd_mmn}
 %if 0%{?fedora} || 0%{?rhel} > 7
@@ -145,13 +147,13 @@ install -m0644 mlogc/mlogc-default.conf %{buildroot}%{_sysconfdir}/mlogc.conf
 %endif
 
 %changelog
-* Wed Jul 09 2025 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-2.1
-- Resolves: RHEL-100102 - CVE-2025-48866 mod_security: ModSecurity
-  Denial of Service Vulnerability
+* Tue Aug 19 2025 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-3
+- Resolves: RHEL-100098 - mod_security: ModSecurity Denial of Service
+  Vulnerability (CVE-2025-48866)
 
-* Thu May 29 2025 Joe Orton  <jorton@redhat.com> - 2.9.6-2
-- add fix for CVE-2025-47947
-- Resolves: RHEL-93016
+* Mon Aug 18 2025 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-2
+- Resolves: RHEL-93014 - mod_security: ModSecurity Has Possible DoS
+  Vulnerability (CVE-2025-47947)
 
 * Wed Nov 16 2022 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-1
 - new version 2.9.6
