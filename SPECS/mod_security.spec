@@ -10,7 +10,7 @@
 Summary: Security module for the Apache HTTP Server
 Name: mod_security
 Version: 2.9.6
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: ASL 2.0
 URL: http://www.modsecurity.org/
 Source: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-%{version}.tar.gz
@@ -20,6 +20,7 @@ Source3: modsecurity_localrules.conf
 Patch0: modsecurity-2.9.3-lua-54.patch
 Patch1: modsecurity-2.9.3-apulibs.patch
 Patch2: mod_security-2.9.3-remote-rules-timeout.patch
+Patch3: mod_security-2.9.6-move-log-opening.patch
 
 # Security patches
 Patch100: mod_security-2.9.6-CVE-2025-47947.patch
@@ -147,6 +148,10 @@ install -m0644 mlogc/mlogc-default.conf %{buildroot}%{_sysconfdir}/mlogc.conf
 %endif
 
 %changelog
+* Mon Oct 06 2025 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-4
+- Resolves: RHEL-30628 - mod_security: httpd doesn't close read side of pipe
+  to rotatelogs for SecAuditLog leading to frozen state during graceful restart
+
 * Tue Aug 19 2025 Luboš Uhliarik <luhliari@redhat.com> - 2.9.6-3
 - Resolves: RHEL-100098 - mod_security: ModSecurity Denial of Service
   Vulnerability (CVE-2025-48866)
